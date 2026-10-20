@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7e9f0">
+  <meta name="description" content="A personal money planner for tracking spending, savings pockets, and accounts.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>Bloom — Freedom from financial disability</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-splash" id="appSplash" aria-label="Bloom app opening animation"><div class="app-splash-inner"><div class="app-splash-logo">✿</div><div class="app-splash-name">Bloom</div><div class="app-splash-tagline">Freedom from financial disability.</div><div class="app-splash-rule"></div></div></div>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Bloom home"><span class="brand-mark">✿</span><span><b>Bloom</b><small>freedom from financial disability</small></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav">
+        <button class="nav-item active" data-view="overview"><span>◫</span> Overview</button>
+        <button class="nav-item" data-view="transactions"><span>↕</span> Transactions</button>
+        <button class="nav-item" data-view="pockets"><span>▣</span> Savings pockets</button>
+        <button class="nav-item" data-view="accounts"><span>◉</span> My accounts</button>
+        <button class="nav-item" data-view="reports"><span>▥</span> Reports</button>
+        <button class="nav-item" data-view="reminders"><span>◷</span> Reminders</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="mini-card">
+          <div class="mini-spark">✦</div>
+          <b>Small steps count.</b>
+          <p>Your money habits grow one choice at a time.</p>
+        </div>
+        <button class="nav-item" data-view="settings"><span>⚙</span> Settings</button>
+        <div class="profile"><div class="avatar">B</div><div><b>Your money space</b><small>Personal account</small></div><span class="dots">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">✿</span><b>Bloom</b></div>
+        <div class="breadcrumbs"><span>Workspace</span><span class="crumb-slash">/</span><b id="pageCrumb">Overview</b></div>
+        <div class="top-actions"><span class="date-pill" id="todayLabel">Today</span><button class="icon-button" id="quickReminder" title="Quick reminder">◷</button><button class="primary-button" id="openAdd"><span>＋</span> Add transaction</button></div>
+      </header>
+
+      <section class="view active" id="view-overview">
+        <div class="welcome-row">
+          <div><div class="eyebrow"><span class="eyebrow-dot"></span> YOUR FINANCIAL RESET</div><h1>Make room for <em>more.</em></h1><p class="subhead">A little clarity today can make tomorrow feel lighter.</p></div>
+          <div class="welcome-art"><div class="art-orbit orbit-a"></div><div class="art-orbit orbit-b"></div><div class="art-flower">✿</div><span class="art-leaf leaf-a">✦</span><span class="art-leaf leaf-b">✧</span></div>
+        </div>
+        <div class="summary-grid">
+          <article class="summary-card balance-card"><div class="card-top"><span>Total account balance</span><span class="card-icon white-icon">↗</span></div><div class="big-money" id="totalBalance">LD 0</div><div class="card-foot"><span class="soft-dot"></span> Across your tracked accounts</div><div class="balance-decoration">₦</div></article>
+          <article class="summary-card"><div class="card-top"><span>Spent this week</span><span class="card-icon">↘</span></div><div class="big-money dark-money" id="weekSpent">LD 0</div><div class="card-foot muted">Keep an eye on your everyday spending</div><div class="progress-track"><div class="progress-fill" id="spendingProgress"></div></div></article>
+          <article class="summary-card"><div class="card-top"><span>Money set aside</span><span class="card-icon">♡</span></div><div class="big-money dark-money" id="totalSaved">LD 0</div><div class="card-foot muted">Across your savings pockets</div><div class="pocket-dots"><i></i><i></i><i></i><i></i></div></article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel pockets-panel"><div class="section-heading"><div><h2>Your pockets</h2><p>Give every Liberian dollar a purpose.</p></div><button class="text-button" data-goto="pockets">View all <span>→</span></button></div><div id="pocketPreview" class="pocket-list"></div><button class="add-pocket-button" id="addPocketShortcut"><span>＋</span> Create a savings pocket</button></section>
+          <section class="panel activity-panel"><div class="section-heading"><div><h2>Recent activity</h2><p>Your latest money moves.</p></div><button class="text-button" data-goto="transactions">See all <span>→</span></button></div><div id="recentTransactions" class="activity-list"></div></section>
+        </div>
+        <section class="panel reminder-banner"><div class="reminder-illustration"><span>◷</span><i>✦</i></div><div><div class="eyebrow">A GENTLE NUDGE</div><h3>Did you spend anything today?</h3><p>Logging small purchases helps you see where your money goes.</p></div><button class="primary-button" id="logExpenseFromBanner">Log an expense <span>→</span></button></section>
+      </section>
+
+      <section class="view" id="view-transactions">
+        <div class="page-heading"><div><div class="eyebrow">YOUR MONEY, MADE CLEAR</div><h1>Transactions</h1><p class="subhead">Keep track of the money coming in and going out.</p></div><button class="primary-button" data-add="transaction">＋ Add transaction</button></div>
+        <div class="panel"><div class="filters"><input id="transactionSearch" class="search-input" placeholder="⌕  Search transactions…" aria-label="Search transactions"><select id="transactionTypeFilter" aria-label="Filter transaction type"><option value="all">All activity</option><option value="expense">Expenses</option><option value="income">Income</option></select><select id="transactionCategoryFilter" aria-label="Filter category"><option value="all">All categories</option></select></div><div class="table-wrap"><table><thead><tr><th>TRANSACTION</th><th>CATEGORY</th><th>ACCOUNT</th><th>DATE</th><th class="right">AMOUNT</th><th></th></tr></thead><tbody id="transactionsTable"></tbody></table></div><div id="transactionsEmpty" class="empty-state hidden"><span>✿</span><h3>No transactions yet</h3><p>Add your first income or expense to get started.</p><button class="primary-button" data-add="transaction">＋ Add transaction</button></div></div>
+      </section>
+
+      <section class="view" id="view-pockets">
+        <div class="page-heading"><div><div class="eyebrow">SAVE WITH A PURPOSE</div><h1>Savings pockets</h1><p class="subhead">Separate your plans, even when your money lives in one place.</p></div><button class="primary-button" id="createPocketButton">＋ New pocket</button></div>
+        <div class="pocket-note"><span>✦</span><div><b>Pockets are your plan, not a separate bank account.</b><p>They help you earmark money. Update the pocket when you set money aside or use it.</p></div></div>
+        <div class="pocket-grid" id="allPockets"></div>
+      </section>
+
+      <section class="view" id="view-accounts">
+        <div class="page-heading"><div><div class="eyebrow">WHERE YOUR MONEY LIVES</div><h1>My accounts</h1><p class="subhead">Manually track cash and mobile money balances.</p></div><button class="primary-button" id="addAccountButton">＋ Add account</button></div>
+        <div class="account-info"><span>◉</span><div><b>Balances are entered by you.</b><p>This prototype does not connect to Orange Money, Lonestar MTN Mobile Money, banks, or your SIM. Update the balances to match what you see on your phone or in your wallet.</p></div></div>
+        <div class="account-grid" id="accountsGrid"></div>
+      </section>
+
+      <section class="view" id="view-reports">
+        <div class="page-heading"><div><div class="eyebrow">NOTICE YOUR PATTERNS</div><h1>Money reports</h1><p class="subhead">A simple look at your weekly money habits.</p></div><select id="reportPeriod" class="period-select"><option value="week">This week</option><option value="month">This month</option><option value="all">All time</option></select></div>
+        <div class="report-summary" id="reportSummary"></div>
+        <div class="report-grid"><section class="panel"><div class="section-heading"><div><h2>Spending by category</h2><p>Which categories used the most?</p></div></div><div id="categoryChart" class="category-chart"></div></section><section class="panel"><div class="section-heading"><div><h2>Income vs. spending</h2><p>Keep more of what comes in.</p></div></div><div id="incomeExpenseBars" class="comparison-bars"></div></section></div>
+      </section>
+
+      <section class="view" id="view-reminders">
+        <div class="page-heading"><div><div class="eyebrow">BUILD A SMALL HABIT</div><h1>Reminders</h1><p class="subhead">Gentle nudges to help you remember your spending.</p></div></div>
+        <div class="reminder-settings panel"><div class="reminder-setting-head"><div class="reminder-big-icon">◷</div><div><h2>Daily money check-in</h2><p>Get a reminder to record breakfast, dinner, transport, data, or anything else you bought.</p></div><label class="switch"><input type="checkbox" id="remindersEnabled"><span></span></label></div><div class="setting-fields"><label>Reminder time<input type="time" id="reminderTime" value="20:00"></label><label>Check-in style<select id="reminderStyle"><option value="gentle">Gentle and encouraging</option><option value="direct">Short and direct</option></select></label></div><div class="permission-row"><div><b>Browser notifications</b><p id="notificationStatus">Notifications work only when this page is open in this prototype.</p></div><button class="outline-button" id="enableNotifications">Enable notifications</button></div><div class="divider"></div><div class="section-heading"><div><h2>Quick check-in</h2><p>Use this any time you remember a purchase.</p></div><button class="primary-button" id="quickCheckin">Start check-in →</button></div><div class="checkin-questions"><span>☕ Breakfast</span><span>🍲 Dinner</span><span>🚌 Transport</span><span>📱 Data</span><span>＋ Other</span></div></div>
+        <div class="panel reminder-tip"><span>✧</span><div><b>No guilt, just information.</b><p>Missed a day? Start again today. The goal is to understand your money, not to be perfect.</p></div></div>
+      </section>
+
+      <section class="view" id="view-settings">
+        <div class="page-heading"><div><div class="eyebrow">MAKE IT YOURS</div><h1>Settings</h1><p class="subhead">Choose how Bloom displays your money.</p></div></div>
+        <div class="panel settings-panel"><label class="form-field">Display name<input id="displayName" placeholder="What should we call this space?"></label><label class="form-field">Currency<select id="currency"><option value="LD">Liberian dollars (LD)</option><option value="USD">US dollars (USD)</option></select></label><label class="form-field">Weekly spending guide (optional)<input id="weeklyBudget" type="number" min="0" placeholder="e.g. 1500"></label><p class="small-note">The currency setting changes how amounts are displayed; it does not convert values. Your information is stored in this browser on this device.</p><div class="settings-actions"><button class="primary-button" id="saveSettings">Save settings</button><button class="danger-button" id="resetApp">Reset all app data</button></div></div>
+      </section>
+
+      <footer class="app-footer"><span>✿ Bloom <span class="footer-dot">·</span> Your money, your pace.</span><span>Prototype · Your data stays in this browser</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modalBackdrop">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><div class="eyebrow" id="modalEyebrow">MONEY MOVES</div><h2 id="modalTitle">Add transaction</h2></div><button class="close-button" id="closeModal" aria-label="Close">×</button></div><form id="transactionForm"><div class="form-field"><label for="entryType">Type</label><div class="segmented" id="typeSegment"><button type="button" class="selected" data-type="expense">Expense</button><button type="button" data-type="income">Income</button></div><input type="hidden" id="entryType" value="expense"></div><div class="form-row"><label class="form-field">Amount (LD)<input id="entryAmount" type="number" min="1" step="1" required placeholder="e.g. 100"></label><label class="form-field">Date<input id="entryDate" type="date" required></label></div><label class="form-field">Description<input id="entryDescription" required maxlength="80" placeholder="e.g. Breakfast"></label><div class="form-row"><label class="form-field">Category<select id="entryCategory" required></select></label><label class="form-field">Account<select id="entryAccount" required></select></label></div><label class="form-field" id="pocketField">Pocket affected (optional)<select id="entryPocket"><option value="">Don't change a pocket</option></select><small>For expenses, choose a pocket if the spending should come out of that pocket's planned amount.</small></label><div class="modal-actions"><button type="button" class="outline-button" id="cancelModal">Cancel</button><button type="submit" class="primary-button">Save transaction <span>→</span></button></div></form></section>
+  </div>
+
+  <div class="modal-backdrop hidden" id="pocketModalBackdrop"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="pocketModalTitle"><div class="modal-head"><div><div class="eyebrow">GIVE YOUR MONEY A JOB</div><h2 id="pocketModalTitle">Create a pocket</h2></div><button class="close-button" id="closePocketModal">×</button></div><form id="pocketForm"><label class="form-field">Pocket name<input id="pocketName" maxlength="40" required placeholder="e.g. Birthday gift"></label><div class="form-row"><label class="form-field">Starting amount (LD)<input id="pocketAmount" type="number" min="0" step="1" value="0" required></label><label class="form-field">Goal amount (LD)<input id="pocketGoal" type="number" min="0" step="1" placeholder="Optional"></label></div><label class="form-field">Choose a color<select id="pocketColor"><option value="pink">Rose</option><option value="purple">Lavender</option><option value="green">Sage</option><option value="orange">Peach</option><option value="blue">Sky</option></select></label><div class="modal-actions"><button type="button" class="outline-button" id="cancelPocketModal">Cancel</button><button class="primary-button" type="submit">Create pocket →</button></div></form></section></div>
+
+  <div class="modal-backdrop hidden" id="accountModalBackdrop"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="accountModalTitle"><div class="modal-head"><div><div class="eyebrow">TRACK YOUR BALANCE</div><h2 id="accountModalTitle">Add account</h2></div><button class="close-button" id="closeAccountModal">×</button></div><form id="accountForm"><label class="form-field">Account name<input id="accountName" required maxlength="40" placeholder="e.g. Orange Money"></label><label class="form-field">Account type<select id="accountType"><option value="cash">Physical cash</option><option value="mobile">Mobile money</option><option value="bank">Bank account</option><option value="other">Other</option></select></label><label class="form-field">Current balance (LD)<input id="accountBalance" type="number" min="0" step="1" value="0" required></label><div class="modal-actions"><button type="button" class="outline-button" id="cancelAccountModal">Cancel</button><button class="primary-button" type="submit">Add account →</button></div></form></section></div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
